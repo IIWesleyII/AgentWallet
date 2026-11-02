@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AgentWallet demo dashboard — agent balances, spending policies, and recent transactions.">
+  <title>AgentWallet — Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="robot-purple" x2="0" y2="1"><stop stop-color="#c8bbff"/><stop offset="1" stop-color="#8a6aea"/></linearGradient>
+      <linearGradient id="robot-face" x2="0" y2="1"><stop stop-color="#263d65"/><stop offset="1" stop-color="#111c34"/></linearGradient>
+      <symbol id="robot" viewBox="0 0 80 90">
+        <path d="M40 19V8" stroke="#ac91fa" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="40" cy="7" r="4" fill="#c7c7ff"/>
+        <path d="M17 90v-8c0-17 46-17 46 0v8" fill="url(#robot-purple)"/>
+        <path d="M29 72h22v18H29z" fill="#32395b"/><circle cx="35" cy="82" r="2" fill="#8c85ff"/><circle cx="46" cy="82" r="2" fill="#8c85ff"/>
+        <rect x="5" y="35" width="9" height="19" rx="4" fill="#9a8bce"/><rect x="66" y="35" width="9" height="19" rx="4" fill="#9a8bce"/>
+        <rect x="10" y="19" width="60" height="48" rx="20" fill="url(#robot-purple)"/>
+        <rect x="15" y="25" width="50" height="36" rx="14" fill="url(#robot-face)" stroke="#b5e9ff" stroke-width="3"/>
+        <ellipse cx="29" cy="41" rx="4" ry="5" fill="#95dfff"/><ellipse cx="51" cy="41" rx="4" ry="5" fill="#95dfff"/>
+        <path d="M35 52h10" stroke="#94dcff" stroke-width="3" stroke-linecap="round"/>
+        <path d="M32 68h16" stroke="#a990f5" stroke-width="4" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9"/></symbol>
+      <symbol id="play" viewBox="0 0 24 24"><path d="m6 3 15 9-15 9Z"/></symbol>
+      <symbol id="shield" viewBox="0 0 24 24"><path d="M12 3c3 2 5 3 8 3v6c0 5-5 8-8 10-3-2-8-5-8-10V6c3 0 5-1 8-3Z"/></symbol>
+      <symbol id="file" viewBox="0 0 24 24"><path d="M5 2h10l4 4v16H5ZM14 2v5h5M9 12h6M9 16h5"/></symbol>
+      <symbol id="chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+      <symbol id="external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4 10 14M10 5H5v15h15v-6"/></symbol>
+      <symbol id="coins" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v5c0 4 16 4 16 0V6M4 11v5c0 4 16 4 16 0v-5"/></symbol>
+      <symbol id="calendar" viewBox="0 0 24 24"><path d="M4 5h16v16H4ZM8 2v6M16 2v6M4 10h16M8 13v4M12 13v4M16 13v4"/></symbol>
+      <symbol id="dollar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 8c-5-3-8 3-3 4s2 7-3 4M12 5v14"/></symbol>
+      <symbol id="link" viewBox="0 0 24 24"><path d="m10 8 4-4a4 4 0 0 1 6 6l-4 4M14 16l-4 4a4 4 0 0 1-6-6l4-4M8 16l8-8"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="#dashboard" aria-label="AgentWallet dashboard"><svg class="brand-robot" aria-hidden="true"><use href="#robot"/></svg><span>AgentWallet</span><span class="beta">Beta</span></a>
+    <div class="header-actions">
+      <div class="network"><span class="base-logo" aria-hidden="true"></span>Base Sepolia<svg class="icon"><use href="#chevron"/></svg></div>
+      <button class="button primary connect" type="button" disabled title="Wallet connection will be available in a future version">Connect Wallet</button>
+    </div>
+  </header>
+
+  <aside class="sidebar" aria-label="Main navigation">
+    <nav>
+      <a class="nav-item selected" href="#dashboard" aria-current="page"><svg class="icon"><use href="#home"/></svg>Dashboard</a>
+      <a class="nav-item" href="#run-agent"><svg class="icon"><use href="#play"/></svg>Run Agent</a>
+      <a class="nav-item" href="#policies"><svg class="icon"><use href="#shield"/></svg>Policies</a>
+      <a class="nav-item" href="#transactions"><svg class="icon"><use href="#file"/></svg>Transactions</a>
+    </nav>
+  </aside>
+
+  <main id="dashboard">
+    <section class="agent-heading" aria-labelledby="agent-name">
+      <div class="agent-avatar"><svg aria-hidden="true"><use href="#robot"/></svg></div>
+      <div class="agent-description"><h1 id="agent-name">ResearchAgent</h1><p>A demo agent that researches blockchain data and pays for APIs.</p></div>
+      <span class="badge active"><span class="status-dot"></span>Active</span>
+    </section>
+
+    <section class="stats" aria-label="Wallet overview">
+      <article class="card stat"><h2>USDC Balance</h2><div class="balance-content"><span class="usdc" aria-hidden="true">$</span><div><p class="balance">18.42 USDC</p><p class="balance-usd">≈ $18.42</p></div></div></article>
+      <article class="card stat"><h2>Daily Spending</h2><p class="spending"><strong>2.13</strong> / 5.00 USDC</p><div class="progress-row"><meter min="0" max="5" value="2.13" aria-label="Daily spending: 2.13 of 5 USDC">43%</meter><span>43%</span></div></article>
+      <article class="card stat"><h2>Policy Status</h2><div class="policy-status"><span class="shield-tile"><svg class="icon"><use href="#shield"/></svg></span><div><p>5 rules active</p><a href="#policies">View policies <svg class="icon"><use href="#arrow"/></svg></a></div></div></article>
+    </section>
+
+    <div class="workspace-grid">
+      <section class="card run-panel" id="run-agent" aria-labelledby="run-title">
+        <h2 id="run-title">Run Agent (Demo)</h2>
+        <p class="section-description">Let the agent perform a task and watch the wallet in action.</p>
+        <label for="task">Select a task</label>
+        <div class="select-wrap"><select id="task" name="task"><option>Analyze a smart contract (uses 2 services)</option><option>Research a token (uses 3 services)</option><option>Check token prices (uses 1 service)</option></select><svg class="icon" aria-hidden="true"><use href="#chevron"/></svg></div>
+        <button class="button primary run-button" type="button" disabled title="Agent execution will be available in a future version"><svg class="icon"><use href="#play"/></svg>Run Agent</button>
+      </section>
+
+      <section class="card policy-panel" id="policies" aria-labelledby="policy-title">
+        <div class="section-header"><h2 id="policy-title">Policy Summary</h2><button class="edit-button" type="button" disabled title="Policy editing will be available in a future version">Edit</button></div>
+        <dl class="policy-list">
+          <div><dt><svg class="icon"><use href="#coins"/></svg>Max transaction amount</dt><dd>0.50 USDC</dd></div>
+          <div><dt><svg class="icon"><use href="#calendar"/></svg>Daily spending limit</dt><dd>5.00 USDC</dd></div>
+          <div><dt><svg class="icon"><use href="#dollar"/></svg>Allowed tokens</dt><dd>USDC only</dd></div>
+          <div><dt><svg class="icon"><use href="#link"/></svg>Allowed chains</dt><dd>Base only</dd></div>
+          <div><dt><svg class="icon"><use href="#shield"/></svg>Approved services</dt><dd>5 services</dd></div>
+        </dl>
+      </section>
+    </div>
+
+    <section class="card transactions-panel" id="transactions" aria-labelledby="transactions-title">
+      <div class="section-header"><h2 id="transactions-title">Recent Transactions</h2><button class="text-button" type="button" disabled title="All sample transactions are shown below">View All</button></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Recent transactions table">
+        <table>
+          <thead><tr><th scope="col">Time</th><th scope="col">Service</th><th scope="col">Amount</th><th scope="col">Status</th><th scope="col">Tx Hash</th></tr></thead>
+          <tbody>
+            <tr><td>2 min ago</td><td>Blockchain Data API</td><td>0.03 USDC</td><td><span class="badge approved">Approved</span></td><td><span class="tx-hash">0x3c1a...9f2d <svg class="icon" aria-hidden="true"><use href="#external"/></svg></span></td></tr>
+            <tr><td>8 min ago</td><td>Search API</td><td>0.01 USDC</td><td><span class="badge approved">Approved</span></td><td><span class="tx-hash">0xab21...4d8e <svg class="icon" aria-hidden="true"><use href="#external"/></svg></span></td></tr>
+            <tr><td>12 min ago</td><td>Unknown Contract</td><td>5.00 USDC</td><td><span class="badge blocked">Blocked</span></td><td><span class="tx-hash">—</span></td></tr>
+            <tr><td>21 min ago</td><td>Analysis Agent</td><td>0.08 USDC</td><td><span class="badge approved">Approved</span></td><td><span class="tx-hash">0x91ef...7c2b <svg class="icon" aria-hidden="true"><use href="#external"/></svg></span></td></tr>
+            <tr><td>1 hour ago</td><td>Price Data API</td><td>0.02 USDC</td><td><span class="badge approved">Approved</span></td><td><span class="tx-hash">0x5a2d...1e9c <svg class="icon" aria-hidden="true"><use href="#external"/></svg></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <p class="demo-note">Static demo · Sample balances and transactions · Wallet connection and agent execution are not enabled.</p>
+  </main>
+</body>
+</html>
